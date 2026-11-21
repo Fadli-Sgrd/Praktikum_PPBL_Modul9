@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import 'primary_button.dart';
+
+class CartSummaryBar extends StatelessWidget {
+  final int totalItem;
+  final int totalHarga;
+  final VoidCallback onKosongkan;
+  final VoidCallback onCheckout;
+
+  const CartSummaryBar({
+    super.key,
+    required this.totalItem,
+    required this.totalHarga,
+    required this.onKosongkan,
+    required this.onCheckout,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.all(16),
+      color: theme.colorScheme.surfaceContainerHighest,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text('$totalItem item • Rp$totalHarga', style: theme.textTheme.titleMedium),
+          const SizedBox(height: 8),
+          Wrap(
+            alignment: WrapAlignment.end,
+            spacing: 8,
+            children: [
+              PrimaryButton(label: 'Kosongkan', icon: Icons.delete_outline, onPressed: onKosongkan),
+              FilledButton.icon(
+                onPressed: totalItem == 0 ? null : onCheckout,
+                icon: const Icon(Icons.check),
+                label: const Text('Checkout'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
